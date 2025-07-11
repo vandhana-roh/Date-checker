@@ -1,2 +1,75 @@
 # Date-checker
 “Date Checker is a simple web app that lets users find the day of the week for any given date. It’s useful for event planning, historical lookups, and identifying weekday patterns.”
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Find Day of a Given Date</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1c1c1c;
+      color: #f0f0f0;
+      text-align: center;
+      padding: 40px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #00ffcc;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📅 Day Finder</h1>
+  <p>Enter a date (DD/MM/YYYY) to find the day of the week:</p>
+
+  <input type="text" id="dateInput" placeholder="DD/MM/YYYY">
+  <button onclick="showDay()">Check Day</button>
+
+  <div id="result"></div>
+
+  <script>
+    function showDay() {
+      const input = document.getElementById("dateInput").value.trim();
+      const result = document.getElementById("result");
+      result.innerHTML = "";
+
+      const parts = input.split("/");
+
+      if (parts.length !== 3) {
+        alert("Please enter the date in DD/MM/YYYY format.");
+        return;
+      }
+
+      let [day, month, year] = parts.map(Number);
+
+      if (
+        isNaN(day) || isNaN(month) || isNaN(year) ||
+        day < 1 || day > 31 || month < 1 || month > 12 || year < 1600 || year > 3000
+      ) {
+        alert("Invalid date. Please enter a valid date between years 1600 and 3000.");
+        return;
+      }
+
+      const date = new Date(year, month - 1, day);
+      if (date.getDate() !== day || date.getMonth() !== month - 1) {
+        alert("The entered date is invalid.");
+        return;
+      }
+
+      const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const dayName = dayNames[date.getDay()];
+
+      result.innerHTML = `<strong>${input} → ${dayName}</strong>`;
+    }
+  </script>
+
+</body>
+</html>
